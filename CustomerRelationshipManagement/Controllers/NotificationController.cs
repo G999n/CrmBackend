@@ -31,6 +31,25 @@ namespace CustomerRelationshipManagement.Controllers
             return Ok(notifications);
         }
 
+        // GET: api/Notification/User/{userId}/{passwordHash}
+        [HttpGet("User/{userName}/{passwordHash}")]
+        public async Task<ActionResult<IEnumerable<Notification>>> GetUserNotificationsByName(string userName, string passwordHash)
+        {
+            //Get user with given userName and password
+            var user = await (from u in _context.Users
+                               where u.Username == userName && u.PasswordHash == passwordHash
+                               select u).FirstOrDefaultAsync();
+
+            if (user == null) return NotFound();
+            var userId = user.UserId;
+            var notifications = await (from n in _context.Notifications
+                                       where n.UserId == userId
+                                       orderby n.Timestamp descending
+                                       select n).ToListAsync();
+
+            return Ok(notifications);
+        }
+
         // POST: api/Notification
         [HttpPost]
         public async Task<IActionResult> CreateNotification([FromBody] Notification notification)

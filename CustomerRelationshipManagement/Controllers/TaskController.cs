@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using CustomerRelationshipManagement.Models;
 using System.Threading.Tasks;
 using CustomerRelationshipManagement.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CustomerRelationshipManagement.Controllers
 {
