@@ -1,5 +1,6 @@
 ﻿using CustomerRelationshipManagement.Data;
 using CustomerRelationshipManagement.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

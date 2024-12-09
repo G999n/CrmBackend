@@ -30,7 +30,7 @@ namespace CustomerRelationshipManagement.Services
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddHours(1),
+                expires: DateTime.Now.AddDays(10),
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

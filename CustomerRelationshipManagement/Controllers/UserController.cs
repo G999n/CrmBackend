@@ -41,6 +41,7 @@ namespace CustomerRelationshipManagement.Controllers
 
         // POST: api/User
         [HttpPost]
+        //[Authorize(Roles = "Admin, CustSupport")]
         public async Task<ActionResult<User>> CreateUser(User user)
         {
             _context.Users.Add(user);

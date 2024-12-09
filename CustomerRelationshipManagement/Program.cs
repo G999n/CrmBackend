@@ -7,10 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -18,7 +15,6 @@ builder.Services.AddDbContext<CrmDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-// Add JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -28,31 +24,28 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"], // Add in appsettings.json
-            ValidAudience = builder.Configuration["Jwt:Audience"], // Add in appsettings.json
+            ValidIssuer = builder.Configuration["Jwt:Issuer"], 
+            ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]))
         };
     });
 
-// Add Authorization Policy
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("RequireRoles", policy =>
         policy.RequireRole("SalesRep", "AccManager", "CustSupport", "Admin", "MarketingManager"));
 });
 
-// Add JwtService to DI container
+
 builder.Services.AddScoped<JwtService>();
 
-
-// Add services to the container
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins", policy =>
     {
-        policy.AllowAnyOrigin() // Allows all origins (use specific origins for more security)
-              .AllowAnyHeader()  // Allows any headers
-              .AllowAnyMethod(); // Allows any HTTP method (GET, POST, etc.)
+        policy.AllowAnyOrigin() 
+              .AllowAnyHeader()  
+              .AllowAnyMethod(); 
     });
 });
 
@@ -65,9 +58,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
-// Configure the HTTP request pipeline
-app.UseCors("AllowAllOrigins"); // Apply the CORS policy
+app.UseCors("AllowAllOrigins"); 
 
 app.UseHttpsRedirection();
 
