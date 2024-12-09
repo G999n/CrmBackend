@@ -74,6 +74,14 @@ namespace CustomerRelationshipManagement.Controllers
             return Ok(notification);
         }
 
+        // GET: api/Notification
+        [HttpGet]
+        public async Task<ActionResult<Notification>> GetAllNotification()
+        {
+            var notifications = await _context.Notifications.ToListAsync();
+            return Ok(notifications);
+        }
+
         // PUT: api/Notification/MarkAsRead/{id}
         [HttpPut("MarkAsRead/{id}")]
         public async Task<IActionResult> MarkNotificationAsRead(int id)
@@ -96,6 +104,7 @@ namespace CustomerRelationshipManagement.Controllers
         public async Task<IActionResult> DeleteNotification(int id)
         {
             var notification = await _context.Notifications.FindAsync(id);
+            Console.WriteLine(notification);
 
             if (notification == null)
             {
